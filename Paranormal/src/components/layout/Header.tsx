@@ -90,10 +90,14 @@ export function Header() {
                     <div className="flex items-center gap-8">
                         {/* Navigation - Hidden on mobile */}
                         <nav className="hidden md:flex items-center gap-8">
-                            <BloodLink href="#">Explore</BloodLink>
+                            <span onClick={() => navigate('/explore')} style={{cursor:'pointer'}}>
+                                <BloodLink href="#">Explore</BloodLink>
+                            </span>
                             <BloodLink href="#">Myths</BloodLink>
                             <BloodLink href="#">Analysis</BloodLink>
-                            <BloodLink href="#">Submit</BloodLink>
+                            <span onClick={() => navigate('/create-story')} style={{cursor:'pointer'}}>
+                                <BloodLink href="#">Submit</BloodLink>
+                            </span>
                         </nav>
 
                         <div className="flex items-center gap-4">

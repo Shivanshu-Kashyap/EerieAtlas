@@ -1,4 +1,5 @@
 import { useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import { motion, useScroll, useTransform } from "framer-motion";
 import heroBg from "../../assets/hero_background_v2.png";
 
@@ -25,6 +26,7 @@ const locations: Location[] = [
 export function HeroSection() {
     const containerRef = useRef<HTMLDivElement>(null);
     const { scrollY } = useScroll();
+    const navigate = useNavigate();
 
     // Parallax transforms
     const bgY = useTransform(scrollY, [0, 1000], [0, 300]);
@@ -256,6 +258,7 @@ export function HeroSection() {
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
                         className="w-full sm:w-auto px-10 py-4 bg-[#0A0F1C] border border-blue-900/30 text-blue-100/90 rounded-[1px] shadow-[0_0_20px_rgba(0,0,0,0.8)] hover:shadow-[0_0_30px_rgba(30,58,138,0.2)] hover:border-blue-800/60 hover:text-white transition-all duration-500 group relative overflow-hidden"
+                        onClick={() => navigate('/explore')}
                     >
                         <span className="font-display tracking-[0.2em] text-xs font-semibold relative z-10 uppercase">Explore Now</span>
                         <div className="absolute inset-0 bg-gradient-to-r from-transparent via-blue-900/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
@@ -266,6 +269,7 @@ export function HeroSection() {
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
                         className="w-full sm:w-auto px-10 py-4 bg-[#120805] border border-orange-900/30 text-orange-100/90 rounded-[1px] shadow-[0_0_20px_rgba(0,0,0,0.8)] hover:shadow-[0_0_30px_rgba(124,45,18,0.2)] hover:border-orange-800/60 hover:text-white transition-all duration-500 group relative overflow-hidden"
+                        onClick={() => navigate('/create-story')}
                     >
                         <span className="font-display tracking-[0.2em] text-xs font-semibold relative z-10 uppercase">Submit Story</span>
                         <div className="absolute inset-0 bg-gradient-to-r from-transparent via-orange-900/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />

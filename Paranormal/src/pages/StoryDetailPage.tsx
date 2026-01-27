@@ -135,11 +135,28 @@ export function StoryDetailPage() {
                 <div className="lg:col-span-8">
                     <div className="prose prose-invert prose-lg max-w-none font-serif text-gray-300 leading-loose">
                         <p className="first-letter:text-5xl first-letter:font-display first-letter:text-red-500 first-letter:float-left first-letter:mr-3">
-                            {story.content.split('\n').map((paragraph, i) => (
-                                <span key={i} className="block mb-6">
-                                    {paragraph}
-                                </span>
-                            ))}
+                            {story.content.split('\n').map((paragraph, i) => {
+                                // Basic Markdown Parser for display
+                                const parseContent = (text: string) => {
+                                    const parts = text.split(/(\*\*.*?\*\*|_{1}.*?_{1}|<u>.*?<\/u>)/g);
+                                    return parts.map((part, index) => {
+                                        if (part.startsWith('**') && part.endsWith('**')) {
+                                            return <strong key={index} className="text-white font-bold">{part.slice(2, -2)}</strong>;
+                                        } else if (part.startsWith('_') && part.endsWith('_')) {
+                                            return <em key={index} className="text-gray-200 italic">{part.slice(1, -1)}</em>;
+                                        } else if (part.startsWith('<u>') && part.endsWith('</u>')) {
+                                            return <u key={index} className="text-gray-300 decoration-red-500/50 underline-offset-4">{part.slice(3, -4)}</u>;
+                                        }
+                                        return part;
+                                    });
+                                };
+
+                                return (
+                                    <span key={i} className="block mb-6">
+                                        {parseContent(paragraph)}
+                                    </span>
+                                );
+                            })}
                         </p>
                     </div>
 
