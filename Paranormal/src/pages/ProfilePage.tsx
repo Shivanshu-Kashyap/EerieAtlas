@@ -91,7 +91,8 @@ export function ProfilePage() {
     return (
         <div className="min-h-screen bg-[#0a0a0a] flex flex-col relative">
             {/* Background Texture */}
-            <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1542259681-d4cd429188d8?q=80&w=2000&auto=format&fit=crop')] bg-cover bg-fixed opacity-5 pointer-events-none" />
+            {/* Background Texture */}
+            <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1519074069444-1ba4fff66d16?q=80&w=2000&auto=format&fit=crop')] bg-cover bg-center bg-no-repeat bg-fixed opacity-20 pointer-events-none" />
 
             <Header />
 

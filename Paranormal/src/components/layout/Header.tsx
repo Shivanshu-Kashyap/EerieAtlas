@@ -80,7 +80,7 @@ export function Header() {
             <div className="container mx-auto px-6">
                 <div className="flex items-center justify-between">
                     {/* Logo - Permanent Red Atlas */}
-                    <div className="flex items-center">
+                    <div className="flex items-center" onClick={() => navigate('/')}>
                         <h1 className="text-2xl font-display text-white tracking-[0.15em] cursor-pointer group uppercase">
                             Eerie<span className="text-red-600 drop-shadow-[0_0_10px_rgba(220,38,38,0.5)]">Atlas</span>
                         </h1>
