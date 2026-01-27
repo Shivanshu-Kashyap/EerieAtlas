@@ -5,7 +5,11 @@ const Story = require('../models/Story');
 // @access  Public
 const getStories = async (req, res) => {
     try {
-        const stories = await Story.find().populate('author', 'username avatar');
+        let query = {};
+        if (req.query.author) {
+            query.author = req.query.author;
+        }
+        const stories = await Story.find(query).populate('author', 'username avatar');
         res.status(200).json(stories);
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -107,11 +111,79 @@ const rateStory = async (req, res) => {
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
+}
+
+// @desc    Update story
+// @route   PUT /api/stories/:id
+// @access  Private
+const updateStory = async (req, res) => {
+    try {
+        const story = await Story.findById(req.params.id);
+
+        if (!story) {
+            return res.status(404).json({ message: 'Story not found' });
+        }
+
+        // Check for user
+        if (!req.user) {
+            return res.status(401).json({ message: 'User not found' });
+        }
+
+        // Make sure the logged in user matches the story author
+        if (story.author.toString() !== req.user.id) {
+            return res.status(401).json({ message: 'User not authorized' });
+        }
+
+        // Handle image updates
+        let updateData = { ...req.body };
+        if (req.files && req.files.length > 0) {
+            updateData.images = req.files.map(file => file.path);
+        }
+
+        const updatedStory = await Story.findByIdAndUpdate(req.params.id, updateData, {
+            new: true,
+        });
+
+        res.status(200).json(updatedStory);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+// @desc    Delete story
+// @route   DELETE /api/stories/:id
+// @access  Private
+const deleteStory = async (req, res) => {
+    try {
+        const story = await Story.findById(req.params.id);
+
+        if (!story) {
+            return res.status(404).json({ message: 'Story not found' });
+        }
+
+        // Check for user
+        if (!req.user) {
+            return res.status(401).json({ message: 'User not found' });
+        }
+
+        // Make sure the logged in user matches the story author
+        if (story.author.toString() !== req.user.id) {
+            return res.status(401).json({ message: 'User not authorized' });
+        }
+
+        await story.deleteOne();
+
+        res.status(200).json({ id: req.params.id });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
 };
 
 module.exports = {
     getStories,
     getStory,
     createStory,
-    rateStory
+    rateStory,
+    updateStory,
+    deleteStory
 };

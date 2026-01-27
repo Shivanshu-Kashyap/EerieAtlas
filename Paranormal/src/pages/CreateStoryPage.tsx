@@ -1,6 +1,6 @@
-import { useState, useContext, useRef } from "react";
+import { useState, useContext, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import {
     Image as ImageIcon,
@@ -19,6 +19,9 @@ import { Footer } from "../components/layout/Footer";
 export function CreateStoryPage() {
     const { user } = useContext(AuthContext)!;
     const navigate = useNavigate();
+    const [searchParams] = useSearchParams();
+    const editId = searchParams.get("edit");
+
     const fileInputRef = useRef<HTMLInputElement>(null);
     const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -30,6 +33,26 @@ export function CreateStoryPage() {
     const [imagePreviews, setImagePreviews] = useState<string[]>([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
+
+    useEffect(() => {
+        if (editId) {
+            setLoading(true);
+            fetch(`http://localhost:5000/api/stories/${editId}`)
+                .then(res => res.json())
+                .then(data => {
+                    setTitle(data.title);
+                    setContent(data.content);
+                    setLocation(data.location);
+                    setType(data.type);
+                    // Keeping existing images handling simple for now - not populating file input
+                    if (data.images && data.images.length > 0) {
+                        setImagePreviews(data.images.map((img: string) => img.replace('http://', 'https://')));
+                    }
+                })
+                .catch(() => setError("Failed to load story for editing"))
+                .finally(() => setLoading(false));
+        }
+    }, [editId]);
 
     const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files) {
@@ -100,8 +123,14 @@ export function CreateStoryPage() {
                 formData.append("images", image);
             });
 
-            const res = await fetch("http://localhost:5000/api/stories", {
-                method: "POST",
+            const url = editId
+                ? `http://localhost:5000/api/stories/${editId}`
+                : "http://localhost:5000/api/stories";
+
+            const method = editId ? "PUT" : "POST";
+
+            const res = await fetch(url, {
+                method: method,
                 headers: {
                     "Authorization": `Bearer ${user.token}`
                 },
@@ -133,7 +162,7 @@ export function CreateStoryPage() {
                 <div className="max-w-4xl mx-auto">
                     <div className="text-center mb-12">
                         <h1 className="text-4xl md:text-5xl font-display text-white mb-4 tracking-wider">
-                            Write Your Story
+                            {editId ? "Edit Your Story" : "Write Your Story"}
                         </h1>
                         <p className="text-gray-400 font-mono text-sm tracking-widest uppercase">
                             Share your paranormal experience with the EerieAtlas Community
@@ -268,7 +297,7 @@ export function CreateStoryPage() {
                                     <span className="animate-pulse">Transmitting...</span>
                                 ) : (
                                     <>
-                                        <span>Submit Story</span>
+                                        <span>{editId ? "Update Story" : "Submit Story"}</span>
                                         <Send size={14} className="group-hover:translate-x-1 transition-transform" />
                                     </>
                                 )}

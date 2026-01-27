@@ -4,6 +4,7 @@ import { AuthPage } from "./pages/AuthPage";
 import { CreateStoryPage } from "./pages/CreateStoryPage";
 import { StoriesPage } from "./pages/StoriesPage";
 import { StoryDetailPage } from "./pages/StoryDetailPage";
+import { ProfilePage } from "./pages/ProfilePage";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route path="/create-story" element={<CreateStoryPage />} />
         <Route path="/explore" element={<StoriesPage />} />
         <Route path="/stories/:id" element={<StoryDetailPage />} />
+        <Route path="/profile" element={<ProfilePage />} />
       </Routes>
     </div>
   );

@@ -90,12 +90,12 @@ export function Header() {
                     <div className="flex items-center gap-8">
                         {/* Navigation - Hidden on mobile */}
                         <nav className="hidden md:flex items-center gap-8">
-                            <span onClick={() => navigate('/explore')} style={{cursor:'pointer'}}>
+                            <span onClick={() => navigate('/explore')} style={{ cursor: 'pointer' }}>
                                 <BloodLink href="#">Explore</BloodLink>
                             </span>
                             <BloodLink href="#">Myths</BloodLink>
                             <BloodLink href="#">Analysis</BloodLink>
-                            <span onClick={() => navigate('/create-story')} style={{cursor:'pointer'}}>
+                            <span onClick={() => navigate('/create-story')} style={{ cursor: 'pointer' }}>
                                 <BloodLink href="#">Submit</BloodLink>
                             </span>
                         </nav>
@@ -126,13 +126,21 @@ export function Header() {
 
                                     {/* Logout Dropdown - Appears on Hover */}
                                     <div className="absolute top-1/2 right-0 pt-8 w-40 opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-all duration-300 translate-y-2 group-hover:translate-y-0 z-10">
-                                        <button
-                                            onClick={logout}
-                                            className="w-full bg-black/95 backdrop-blur-md border border-white/10 p-3 text-xs font-mono text-red-500 hover:text-red-400 hover:bg-white/5 uppercase tracking-widest transition-colors text-right shadow-2xl rounded-b-sm flex items-center justify-end gap-2 group/btn"
-                                        >
-                                            Logout
-                                            <span className="opacity-0 group-hover/btn:opacity-100 transition-opacity">→</span>
-                                        </button>
+                                        <div className="bg-black/95 backdrop-blur-md border border-white/10 shadow-2xl rounded-b-sm flex flex-col">
+                                            <button
+                                                onClick={() => navigate('/profile')}
+                                                className="w-full p-3 text-xs font-mono text-gray-300 hover:text-white hover:bg-white/5 uppercase tracking-widest transition-colors text-right border-b border-white/5"
+                                            >
+                                                Profile
+                                            </button>
+                                            <button
+                                                onClick={logout}
+                                                className="w-full p-3 text-xs font-mono text-red-500 hover:text-red-400 hover:bg-white/5 uppercase tracking-widest transition-colors text-right flex items-center justify-end gap-2 group/btn"
+                                            >
+                                                Logout
+                                                <span className="opacity-0 group-hover/btn:opacity-100 transition-opacity">→</span>
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             ) : (

@@ -25,6 +25,13 @@ export function StoriesPage() {
     const [stories, setStories] = useState<Story[]>([]);
     const [loading, setLoading] = useState(true);
 
+    const truncateText = (text: string, limit: number = 100) => {
+        // Remove text formatting characters like ** and _ and <u>
+        const cleanText = text.replace(/(\*\*|__|[*_]|<u>|<\/u>)/g, "");
+        if (cleanText.length <= limit) return cleanText;
+        return cleanText.substring(0, limit) + "...";
+    };
+
     useEffect(() => {
         const fetchStories = async () => {
             try {
@@ -119,8 +126,8 @@ export function StoriesPage() {
                                                     {story.title}
                                                 </h3>
 
-                                                <p className="text-gray-400 text-sm line-clamp-3 mb-6 font-serif leading-relaxed flex-1">
-                                                    {story.content}
+                                                <p className="text-gray-400 text-sm mb-6 font-serif leading-relaxed flex-1">
+                                                    {truncateText(story.content)}
                                                 </p>
 
                                                 <div className="flex items-center gap-3 pt-4 border-t border-white/5">

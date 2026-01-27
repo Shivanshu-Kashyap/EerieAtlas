@@ -2,6 +2,7 @@ import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, useScroll, useTransform } from "framer-motion";
 import heroBg from "../../assets/hero_background_v2.png";
+import crowSvg from "../../assets/crow.svg";
 
 type PinType = "ghost" | "ufo" | "witchcraft" | "possession";
 
@@ -32,7 +33,6 @@ export function HeroSection() {
     const bgY = useTransform(scrollY, [0, 1000], [0, 300]);
     const mapY = useTransform(scrollY, [0, 1000], [0, 150]);
     const textY = useTransform(scrollY, [0, 500], [0, 100]);
-    const fogX = useTransform(scrollY, [0, 1000], [0, -100]);
 
     return (
         <section ref={containerRef} className="relative h-screen min-h-[900px] flex items-center justify-center overflow-hidden bg-black">
@@ -66,36 +66,23 @@ export function HeroSection() {
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_20%,rgba(0,0,0,0.5)_60%,black_100%)]" />
             </motion.div>
 
-            {/* 2. Fog Layers - Enhanced Depth */}
-            <motion.div
-                className="absolute inset-0 z-1 pointer-events-none opacity-30 mix-blend-hard-light"
-                animate={{ x: [-20, 0] }}
-                transition={{ duration: 15, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" }}
-                style={{ x: fogX }}
-            >
-                <div className="absolute inset-0 bg-[url('https://raw.githubusercontent.com/daniel-friyia/animated-fog/main/fog1.png')] bg-cover opacity-50 contrast-125" />
-            </motion.div>
+            {/* 2. Fog Layers - REMOVED */}
+
 
             {/* 3. Flying Crows Animation */}
             <div className="absolute top-1/4 left-0 w-full h-full pointer-events-none z-10 overflow-hidden">
-                <motion.div
-                    className="absolute w-12 h-8 bg-black/60 opacity-80"
-                    style={{
-                        maskImage: "url('https://upload.wikimedia.org/wikipedia/commons/2/23/Crow_Silhouette.svg')",
-                        maskSize: "contain",
-                        maskRepeat: "no-repeat"
-                    }}
+                <motion.img
+                    src={crowSvg}
+                    alt="Crow"
+                    className="absolute w-12 h-8 opacity-80 object-contain drop-shadow-lg"
                     initial={{ x: "-10vw", y: "20vh", scale: 0.5 }}
                     animate={{ x: "110vw", y: "10vh", scale: 0.8 }}
                     transition={{ duration: 12, repeat: Infinity, delay: 2, ease: "linear" }}
                 />
-                <motion.div
-                    className="absolute w-8 h-6 bg-black/60 opacity-70"
-                    style={{
-                        maskImage: "url('https://upload.wikimedia.org/wikipedia/commons/2/23/Crow_Silhouette.svg')",
-                        maskSize: "contain",
-                        maskRepeat: "no-repeat"
-                    }}
+                <motion.img
+                    src={crowSvg}
+                    alt="Crow"
+                    className="absolute w-8 h-6 opacity-70 object-contain drop-shadow-lg"
                     initial={{ x: "-10vw", y: "25vh", scale: 0.3 }}
                     animate={{ x: "110vw", y: "15vh", scale: 0.5 }}
                     transition={{ duration: 14, repeat: Infinity, delay: 5, ease: "linear" }}
