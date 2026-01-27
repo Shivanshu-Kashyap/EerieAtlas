@@ -35,6 +35,9 @@ export function StoryDetailPage() {
     const [comments, setComments] = useState<Comment[]>([]);
     const [newComment, setNewComment] = useState("");
     const [loading, setLoading] = useState(true);
+    const [userRating, setUserRating] = useState(0);
+    const [hoverRating, setHoverRating] = useState(0);
+    const [userRated, setUserRated] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -79,6 +82,35 @@ export function StoryDetailPage() {
             setNewComment("");
         } catch (error) {
             console.error("Error posting comment:", error);
+        }
+    };
+
+    const handleRate = async (rating: number) => {
+        if (!user) {
+            alert("Please login to rate this case.");
+            return;
+        }
+
+        try {
+            const res = await fetch(`http://localhost:5000/api/stories/${id}/rate`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${user.token}`
+                },
+                body: JSON.stringify({ rating })
+            });
+
+            if (res.ok) {
+                setUserRated(true);
+                setUserRating(rating);
+                // Refresh story data to get new average
+                const storyRes = await fetch(`http://localhost:5000/api/stories/${id}`);
+                const storyData = await storyRes.json();
+                setStory(storyData);
+            }
+        } catch (error) {
+            console.error("Error rating story:", error);
         }
     };
 
@@ -177,9 +209,36 @@ export function StoryDetailPage() {
                             </button>
                         </div>
                         <div className="flex gap-4">
-                            <button className="flex items-center gap-2 text-gray-400 hover:text-red-400 transition-colors uppercase text-xs font-mono tracking-wider">
-                                <Star size={16} /> Rate Case
-                            </button>
+                            <div className="flex items-center gap-2 group relative">
+                                {!userRated ? (
+                                    <div className="flex items-center gap-1">
+                                        {[1, 2, 3, 4, 5].map((star) => (
+                                            <button
+                                                key={star}
+                                                onClick={() => handleRate(star)}
+                                                onMouseEnter={() => setHoverRating(star)}
+                                                onMouseLeave={() => setHoverRating(0)}
+                                                className="focus:outline-none transition-transform hover:scale-110"
+                                            >
+                                                <Star
+                                                    size={16}
+                                                    className={`${(hoverRating || userRating) >= star
+                                                        ? "text-yellow-500 fill-yellow-500"
+                                                        : "text-gray-600"
+                                                        } transition-colors duration-200`}
+                                                />
+                                            </button>
+                                        ))}
+                                        <span className="text-gray-400 uppercase text-xs font-mono tracking-wider ml-2">
+                                            {hoverRating ? `Rate ${hoverRating}` : "Rate Case"}
+                                        </span>
+                                    </div>
+                                ) : (
+                                    <span className="text-yellow-500 text-xs font-mono uppercase tracking-wider flex items-center gap-2">
+                                        <Star size={16} className="fill-yellow-500" /> Rated
+                                    </span>
+                                )}
+                            </div>
                         </div>
                     </div>
 
