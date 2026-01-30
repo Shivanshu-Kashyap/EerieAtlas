@@ -18,7 +18,8 @@ export function AuthPage() {
         e.preventDefault();
         setError("");
 
-        const endpoint = isLogin ? `${import.meta.env.VITE_BACKEND_URL}/api/auth/login` : `${import.meta.env.VITE_BACKEND_URL}/api/auth/register`;
+        const apiUrl = import.meta.env.VITE_BACKEND_URL.replace(/\/$/, '');
+        const endpoint = isLogin ? `${apiUrl}/api/auth/login` : `${apiUrl}/api/auth/register`;
         const payload = isLogin ? { email, password } : { username, email, password };
 
         try {
