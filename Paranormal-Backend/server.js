@@ -50,8 +50,13 @@ app.use('/api/stories', require('./routes/storyRoutes'));
 app.use('/api/locations', require('./routes/locationRoutes'));
 app.use('/api/comments', require('./routes/commentRoutes'));
 
-const PORT = process.env.PORT || 5000;
+// Export app for test/Vercel
+module.exports = app;
 
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-});
+// Only listen if run directly
+if (require.main === module) {
+    const PORT = process.env.PORT || 5000;
+    app.listen(PORT, () => {
+        console.log(`Server running on port ${PORT}`);
+    });
+}
