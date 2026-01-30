@@ -35,7 +35,7 @@ export function HeroSection() {
     const textY = useTransform(scrollY, [0, 500], [0, 100]);
 
     return (
-        <section ref={containerRef} className="relative h-screen min-h-[900px] flex items-center justify-center overflow-hidden bg-black">
+        <section ref={containerRef} className="relative h-screen min-h-[600px] md:min-h-[900px] flex items-center justify-center overflow-hidden bg-black">
 
             {/* 1. Background Image with Parallax & Lightning */}
             <motion.div
@@ -185,7 +185,7 @@ export function HeroSection() {
 
             {/* 8. Hero Content */}
             <motion.div
-                className="relative z-30 text-center px-4 w-full max-w-7xl mx-auto flex flex-col items-center justify-start h-full pt-48 md:pt-64"
+                className="relative z-30 text-center px-4 w-full max-w-7xl mx-auto flex flex-col items-center justify-start h-full pt-32 sm:pt-48 md:pt-64"
                 style={{ y: textY }}
             >
                 {/* Heading */}
@@ -196,7 +196,7 @@ export function HeroSection() {
                     className="relative flex flex-col items-center justify-center leading-tight"
                 >
                     <motion.h1
-                        className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-8 font-display text-white tracking-widest uppercase drop-shadow-[0_4px_10px_rgba(0,0,0,0.9)]"
+                        className="flex flex-col md:flex-row items-center justify-center gap-2 md:gap-6 font-display text-white tracking-widest uppercase drop-shadow-[0_4px_10px_rgba(0,0,0,0.9)]"
                         animate={{
                             scale: [1, 1.01, 1],
                             opacity: [0.9, 1, 0.9]
@@ -207,13 +207,13 @@ export function HeroSection() {
                             ease: "easeInOut"
                         }}
                     >
-                        <span className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-[0.2em] bg-clip-text text-transparent bg-gradient-to-b from-gray-100 to-gray-400">
+                        <span className="text-3xl sm:text-5xl md:text-5xl lg:text-7xl xl:text-8xl font-bold tracking-widest md:tracking-widest lg:tracking-[0.2em] bg-clip-text text-transparent bg-gradient-to-b from-gray-100 to-gray-400">
                             Discover
                         </span>
-                        <span className="font-serif italic text-2xl md:text-4xl text-[#C0A080] font-light lowercase tracking-widest opacity-80 my-2 md:my-0">
+                        <span className="font-serif italic text-xl sm:text-2xl md:text-2xl lg:text-4xl text-[#C0A080] font-light lowercase tracking-widest opacity-80 my-1 md:my-0">
                             the
                         </span>
-                        <span className="text-4xl md:text-6xl lg:text-7xl font-medium tracking-[0.15em] text-gray-300">
+                        <span className="text-2xl sm:text-4xl md:text-4xl lg:text-6xl xl:text-7xl font-medium tracking-widest md:tracking-widest lg:tracking-[0.15em] text-gray-300">
                             Unseen
                         </span>
                     </motion.h1>
