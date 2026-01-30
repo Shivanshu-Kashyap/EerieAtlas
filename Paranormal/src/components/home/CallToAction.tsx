@@ -1,10 +1,12 @@
 import { useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import { motion, useInView, useScroll, useTransform } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import ctaBg from "../../assets/cta_bg.png";
 
 export function CallToAction() {
     const containerRef = useRef<HTMLElement>(null);
+    const navigate = useNavigate();
     const isInView = useInView(containerRef, { amount: 0.3, once: false });
     const { scrollYProgress } = useScroll({
         target: containerRef,
@@ -93,7 +95,7 @@ export function CallToAction() {
                     // Simple entrance animation
                     style={{ opacity: isInView ? 1 : 0, transform: isInView ? 'translateY(0)' : 'translateY(20px)', transition: 'all 0.8s ease 0.6s' }}
                 >
-                    <Button text="Submit Your Report" variant="red" icon={true} />
+                    <Button text="Submit Your Report" variant="red" icon={true} onClick={() => navigate('/create-story')} />
                 </div>
 
             </motion.div>
@@ -102,7 +104,7 @@ export function CallToAction() {
 }
 
 // Reusing Button Component locally (Ideally this would be in a shared component file)
-function Button({ text, variant, icon }: { text: string, variant: "blue" | "red" | "dark", icon?: boolean }) {
+function Button({ text, variant, icon, onClick }: { text: string, variant: "blue" | "red" | "dark", icon?: boolean, onClick?: () => void }) {
     const baseClasses = "px-10 py-4 rounded-[1px] font-display tracking-[0.25em] text-xs font-bold uppercase relative overflow-hidden group shadow-[0_0_20px_rgba(0,0,0,0.5)] transition-all duration-500 inline-flex items-center gap-3";
 
     const variants = {
@@ -122,6 +124,7 @@ function Button({ text, variant, icon }: { text: string, variant: "blue" | "red"
             className={`${baseClasses} ${variants[variant]}`}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
+            onClick={onClick}
         >
             <span className="relative z-10">{text}</span>
             {icon && <ArrowRight className="w-4 h-4 relative z-10 opacity-70 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />}
