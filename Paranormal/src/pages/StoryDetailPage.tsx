@@ -2,7 +2,7 @@ import { useState, useEffect, useContext } from "react";
 import { useParams, Link } from "react-router-dom";
 import { format } from "date-fns";
 import { AuthContext } from "../context/AuthContext";
-import { MapPin, Calendar, Eye, Star, Share2, MessageSquare, User, Send } from "lucide-react";
+import { MapPin, Calendar, Eye, Star, Share2, MessageSquare, User, Send, ChevronLeft, Twitter, Facebook, MessageCircle } from "lucide-react";
 
 interface Comment {
     _id: string;
@@ -38,6 +38,7 @@ export function StoryDetailPage() {
     const [userRating, setUserRating] = useState(0);
     const [hoverRating, setHoverRating] = useState(0);
     const [userRated, setUserRated] = useState(false);
+    const [showShareMenu, setShowShareMenu] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -125,6 +126,22 @@ export function StoryDetailPage() {
         <div className="min-h-screen bg-[#0a0a0a]">
             {/* Hero Section */}
             <div className="relative h-[60vh] w-full overflow-hidden">
+                {/* Navigation Header */}
+                <div className="absolute top-0 left-0 w-full p-6 z-20 flex justify-between items-start">
+                    <Link
+                        to="/explore"
+                        className="group flex items-center gap-2 bg-black/20 hover:bg-black/40 backdrop-blur-md border border-white/5 hover:border-red-500/30 text-white px-4 py-2 rounded-full transition-all duration-300"
+                    >
+                        <ChevronLeft size={16} className="text-red-500 group-hover:-translate-x-1 transition-transform" />
+                        <span className="text-sm font-mono uppercase tracking-widest text-gray-300 group-hover:text-white">Back</span>
+                    </Link>
+
+                    <Link to="/" className="group">
+                        <h1 className="text-2xl font-display text-white tracking-[0.15em] uppercase drop-shadow-xl">
+                            Eerie<span className="text-red-600 drop-shadow-[0_0_10px_rgba(220,38,38,0.5)]">Atlas</span>
+                        </h1>
+                    </Link>
+                </div>
                 <div
                     className="absolute inset-0 bg-cover bg-center"
                     style={{ backgroundImage: `url(${heroImage})` }}
@@ -203,10 +220,36 @@ export function StoryDetailPage() {
 
                     {/* Interaction Bar */}
                     <div className="flex justify-between items-center mt-12 py-6 border-t border-b border-white/5">
-                        <div className="flex gap-4">
-                            <button className="flex items-center gap-2 text-gray-400 hover:text-red-400 transition-colors uppercase text-xs font-mono tracking-wider">
+                        <div className="flex gap-4 relative">
+                            <button
+                                onClick={() => setShowShareMenu(!showShareMenu)}
+                                className="flex items-center gap-2 text-gray-400 hover:text-red-400 transition-colors uppercase text-xs font-mono tracking-wider"
+                            >
                                 <Share2 size={16} /> Share Case
                             </button>
+
+                            {showShareMenu && (
+                                <div className="absolute top-full left-0 mt-2 bg-black/90 border border-white/10 rounded-sm p-2 flex flex-col gap-2 z-50 w-40 backdrop-blur-md">
+                                    <button
+                                        onClick={() => window.open(`https://wa.me/?text=${encodeURIComponent(`Check out this paranormal case: ${story?.title} ${window.location.href}`)}`, '_blank')}
+                                        className="flex items-center gap-3 text-gray-400 hover:text-[#25D366] px-3 py-2 text-xs font-mono uppercase tracking-wider transition-colors text-left"
+                                    >
+                                        <MessageCircle size={14} /> WhatsApp
+                                    </button>
+                                    <button
+                                        onClick={() => window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(`Check out this paranormal case: ${story?.title}`)}&url=${encodeURIComponent(window.location.href)}`, '_blank')}
+                                        className="flex items-center gap-3 text-gray-400 hover:text-[#1DA1F2] px-3 py-2 text-xs font-mono uppercase tracking-wider transition-colors text-left"
+                                    >
+                                        <Twitter size={14} /> Twitter / X
+                                    </button>
+                                    <button
+                                        onClick={() => window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}`, '_blank')}
+                                        className="flex items-center gap-3 text-gray-400 hover:text-[#1877F2] px-3 py-2 text-xs font-mono uppercase tracking-wider transition-colors text-left"
+                                    >
+                                        <Facebook size={14} /> Facebook
+                                    </button>
+                                </div>
+                            )}
                         </div>
                         <div className="flex gap-4">
                             <div className="flex items-center gap-2 group relative">
