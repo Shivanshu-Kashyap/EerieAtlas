@@ -27,6 +27,11 @@ app.use(cors({
             return callback(null, true);
         }
 
+        // Allow Vercel Preview URLs (any subdomain starting with eerie-atlas)
+        if (/^https:\/\/eerie-atlas.*\.vercel\.app$/.test(origin)) {
+            return callback(null, true);
+        }
+
         // Allow localhost for development (any port)
         if (origin.startsWith('http://localhost:')) {
             return callback(null, true);
