@@ -18,7 +18,7 @@ export function AuthPage() {
         e.preventDefault();
         setError("");
 
-        const endpoint = isLogin ? "http://localhost:5000/api/auth/login" : "http://localhost:5000/api/auth/register";
+        const endpoint = isLogin ? `${import.meta.env.VITE_BACKEND_URL}/api/auth/login` : `${import.meta.env.VITE_BACKEND_URL}/api/auth/register`;
         const payload = isLogin ? { email, password } : { username, email, password };
 
         try {

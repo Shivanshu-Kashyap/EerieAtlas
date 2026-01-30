@@ -37,7 +37,7 @@ export function CreateStoryPage() {
     useEffect(() => {
         if (editId) {
             setLoading(true);
-            fetch(`http://localhost:5000/api/stories/${editId}`)
+            fetch(`${import.meta.env.VITE_BACKEND_URL}/api/stories/${editId}`)
                 .then(res => res.json())
                 .then(data => {
                     setTitle(data.title);
@@ -124,8 +124,8 @@ export function CreateStoryPage() {
             });
 
             const url = editId
-                ? `http://localhost:5000/api/stories/${editId}`
-                : "http://localhost:5000/api/stories";
+                ? `${import.meta.env.VITE_BACKEND_URL}/api/stories/${editId}`
+                : `${import.meta.env.VITE_BACKEND_URL}/api/stories`;
 
             const method = editId ? "PUT" : "POST";
 

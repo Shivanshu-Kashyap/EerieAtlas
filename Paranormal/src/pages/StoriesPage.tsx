@@ -36,7 +36,7 @@ export function StoriesPage() {
     useEffect(() => {
         const fetchStories = async () => {
             try {
-                const res = await fetch("http://localhost:5000/api/stories");
+                const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/stories`);
                 const data = await res.json();
                 setStories(data);
             } catch (error) {

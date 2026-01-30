@@ -44,12 +44,12 @@ export function StoryDetailPage() {
         const fetchData = async () => {
             try {
                 // Fetch Story
-                const storyRes = await fetch(`http://localhost:5000/api/stories/${id}`);
+                const storyRes = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/stories/${id}`);
                 const storyData = await storyRes.json();
                 setStory(storyData);
 
                 // Fetch Comments
-                const commentsRes = await fetch(`http://localhost:5000/api/comments/${id}`);
+                const commentsRes = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/comments/${id}`);
                 const commentsData = await commentsRes.json();
                 setComments(commentsData);
             } catch (error) {
@@ -67,7 +67,7 @@ export function StoryDetailPage() {
         if (!user || !newComment.trim()) return;
 
         try {
-            const res = await fetch("http://localhost:5000/api/comments", {
+            const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/comments`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -93,7 +93,7 @@ export function StoryDetailPage() {
         }
 
         try {
-            const res = await fetch(`http://localhost:5000/api/stories/${id}/rate`, {
+            const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/stories/${id}/rate`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -106,7 +106,7 @@ export function StoryDetailPage() {
                 setUserRated(true);
                 setUserRating(rating);
                 // Refresh story data to get new average
-                const storyRes = await fetch(`http://localhost:5000/api/stories/${id}`);
+                const storyRes = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/stories/${id}`);
                 const storyData = await storyRes.json();
                 setStory(storyData);
             }

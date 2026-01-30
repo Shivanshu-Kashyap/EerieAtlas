@@ -44,7 +44,7 @@ export function ProfilePage() {
         const fetchUserStories = async () => {
             try {
                 // Assuming backend supports filtering by author query param
-                const res = await fetch(`http://localhost:5000/api/stories?author=${user._id}`);
+                const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/stories?author=${user._id}`);
                 const data = await res.json();
 
                 // If the backend returns all stories (fallback), filter client side
@@ -69,7 +69,7 @@ export function ProfilePage() {
         if (!confirm("Are you sure you want to delete this story? This action cannot be undone.")) return;
 
         try {
-            const res = await fetch(`http://localhost:5000/api/stories/${storyId}`, {
+            const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/stories/${storyId}`, {
                 method: "DELETE",
                 headers: {
                     "Authorization": `Bearer ${user?.token}`
