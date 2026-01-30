@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { motion, useInView, animate } from "framer-motion";
 import ctaBg from "../../assets/cta_bg.png";
 
