@@ -12,7 +12,31 @@ connectDB();
 const app = express();
 
 // Middleware
-app.use(cors());
+app.use(cors({
+    origin: (origin, callback) => {
+        const allowedOrigins = [
+            'https://eerie-atlas-po8y.vercel.app',
+            'https://eerie-atlas.vercel.app'
+        ];
+
+        // Allow requests with no origin (like mobile apps or curl requests)
+        if (!origin) return callback(null, true);
+
+        // Allow specific origins
+        if (allowedOrigins.indexOf(origin) !== -1) {
+            return callback(null, true);
+        }
+
+        // Allow localhost for development (any port)
+        if (origin.startsWith('http://localhost:')) {
+            return callback(null, true);
+        }
+
+        const msg = 'The CORS policy for this site does not allow access from the specified Origin.';
+        return callback(new Error(msg), false);
+    },
+    credentials: true
+}));
 app.use(express.json());
 
 // Basic Route
